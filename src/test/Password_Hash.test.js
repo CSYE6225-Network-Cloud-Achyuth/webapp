@@ -40,3 +40,18 @@ describe("Password Hash and Compare 2", () => {
     expect(hashedPassword).not.toBe(matchedPassword);
   });
 });
+
+describe("Password Hash and Compare 2", () => {
+  it("Hashing it and comparing it", async () => {
+    const password = "password";
+
+    const hashedPassword = await PasswordHash.toHash(password);
+
+    const matchedPassword = await PasswordHash.comparePassword(
+      password,
+      hashedPassword
+    );
+
+    expect(matchedPassword).toBe(true);
+  });
+});

@@ -7,6 +7,7 @@ import { checkIdValidationIntheUrl } from "../middleware/CheckIdValidationInUrl.
 import { checkPayloadKeyValueEmpty } from "../middleware/CheckPutPayloadContent.js";
 import { emptyContentCheckMiddleware } from "../middleware/EmptyContentCheckMiddleware.js";
 import { checkPasswordRegex } from "../middleware/PasswordRegexMiddleWare.js";
+import { createProduct } from "../service/ProductService.js";
 import { getUserById, updateTheGivenFields } from "../service/UserService.js";
 
 const router = Router();
@@ -48,5 +49,11 @@ router.put(
     res.status(204).send();
   }
 );
+
+router.post("/v1/product", checkAuthorization, async (req, res) => {
+  const createdProduct = await createProduct(req.body, req.response.id);
+
+  await res.send({ createProduct });
+});
 
 export { router as ProtectedRoutes };

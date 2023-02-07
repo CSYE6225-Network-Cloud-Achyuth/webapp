@@ -31,7 +31,7 @@ router.get("/healthz", async (request, respond) => {
 });
 
 router.get(
-  "/v1/products/:productId",
+  "/v1/product/:productId",
   checkAuthorization,
   async (request, response) => {
     const { productId } = request.params;

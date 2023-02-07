@@ -11,8 +11,28 @@ const Product = sequelize.define("products", {
     unique: true,
     noUpdate: true,
   },
-  product_name: {
+  name: {
     type: DataTypes.STRING,
+  },
+  description: {
+    type: DataTypes.STRING,
+  },
+  sku: {
+    type: DataTypes.STRING,
+    unique: {
+      arg: true,
+      msg: "SKU already taken! Give another unique SKU",
+    },
+  },
+  manufacturer: {
+    type: DataTypes.STRING,
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    validate: {
+      min: 0,
+      max: 100,
+    },
   },
 });
 

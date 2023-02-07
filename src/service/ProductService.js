@@ -1,8 +1,9 @@
+import BadRequestException from "../errors/BadRequest.js";
 import { Product } from "../Models/Product.js";
 import { User } from "../Models/User.js";
 
 const createProduct = async (body, userId) => {
-  const { name } = body;
+  const { name, description, sku, manufacturer, quantity } = body;
 
   const account_created = Date.now();
 
@@ -10,12 +11,17 @@ const createProduct = async (body, userId) => {
 
   try {
     const productResponse = await Product.create({
-      product_name: name,
+      name: name,
+      description,
+      sku,
+      manufacturer,
+      quantity,
       user_id: userId,
     });
     return await productResponse;
   } catch (err) {
     console.error("Failed to create product" + err);
+    throw new BadRequestException(err.toString());
   }
 };
 
@@ -31,4 +37,44 @@ const getProductById = async (productId) => {
   }
 };
 
-export { createProduct, getProductById };
+const updateProductPut = async (body, userId) => {
+  try {
+    const { name, description, sku, manufacturer, quantity } = body;
+
+    const productResponse = await Product.update(
+      {
+        name,
+        description,
+        sku,
+        manufacturer,
+        quantity,
+      },
+      {
+        where: {
+          user_id: userId,
+        },
+      }
+    );
+
+    return await productResponse;
+  } catch (err) {
+    console.error("There is an error in updating product: " + err);
+  }
+};
+
+const deleteProduct = async (productId) => {
+  try {
+    const productResponse = await Product.destroy({
+      where: {
+        id: productId,
+      },
+    });
+
+    return await productResponse;
+  } catch (err) {
+    console.error("There is a problem in deleting the product: " + err);
+    throw new BadRequestException(err.toString());
+  }
+};
+
+export { createProduct, getProductById, updateProductPut, deleteProduct };

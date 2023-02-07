@@ -5,9 +5,9 @@ import { User } from "../Models/User.js";
 const createProduct = async (body, userId) => {
   const { name, description, sku, manufacturer, quantity } = body;
 
-  const account_created = Date.now();
+  const date_added = Date.now();
 
-  const account_updated = Date.now();
+  const date_last_updated = Date.now();
 
   try {
     const productResponse = await Product.create({
@@ -17,6 +17,8 @@ const createProduct = async (body, userId) => {
       manufacturer,
       quantity,
       user_id: userId,
+      date_added,
+      date_last_updated,
     });
     return await productResponse;
   } catch (err) {
@@ -28,18 +30,26 @@ const createProduct = async (body, userId) => {
 const getProductById = async (productId) => {
   try {
     console.log("Get by product id: " + productId);
-    const productResponse = await Product.findByPk(productId, {
-      include: ["user"],
-    });
+    // const productResponse = await Product.findByPk(productId, {
+    //   include: ["user"],
+    // });
+
+    const productResponse = await Product.findByPk(productId);
+
     return await productResponse;
   } catch (err) {
     console.error("Failed to fetch the product ID: " + err);
+    throw new BadRequestException(err.toString());
   }
 };
 
-const updateProductPut = async (body, userId) => {
+const updateProductPut = async (body, productId) => {
   try {
     const { name, description, sku, manufacturer, quantity } = body;
+
+    console.log(body);
+
+    const date_last_updated = Date.now();
 
     const productResponse = await Product.update(
       {
@@ -48,10 +58,11 @@ const updateProductPut = async (body, userId) => {
         sku,
         manufacturer,
         quantity,
+        date_last_updated,
       },
       {
         where: {
-          user_id: userId,
+          id: productId,
         },
       }
     );
@@ -59,6 +70,7 @@ const updateProductPut = async (body, userId) => {
     return await productResponse;
   } catch (err) {
     console.error("There is an error in updating product: " + err);
+    throw new BadRequestException(err.toString());
   }
 };
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { checkAuthorization } from "../middleware/CheckAuthorization.js";
+import { checkIdValidationInTheProductUrl } from "../middleware/CheckIdValidationInTheProductUrl.js";
 import { emptyContent } from "../middleware/CheckIfEmptyContent.js";
 import { checkEmailRegex } from "../middleware/EmailRegexMiddleware.js";
 import { encryptPassword } from "../middleware/EncryptPassword.js";
@@ -32,7 +33,7 @@ router.get("/healthz", async (request, respond) => {
 
 router.get(
   "/v1/product/:productId",
-  checkAuthorization,
+  checkIdValidationInTheProductUrl,
   async (request, response) => {
     const { productId } = request.params;
 

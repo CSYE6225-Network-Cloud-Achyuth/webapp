@@ -17,6 +17,17 @@ const checkIfAllTheContentIsGivenInProduct = async (req, res, next) => {
     throw new BadRequestException("You have given some unnecessary field!");
   }
 
+  if (
+    name === "" ||
+    description === "" ||
+    sku === "" ||
+    manufacturer === "" ||
+    quantity === ""
+  ) {
+    throw new BadRequestException(
+      "There is a empty value in one of the json field"
+    );
+  }
   next();
 };
 

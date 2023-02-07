@@ -3,6 +3,7 @@ import BadRequestException from "../errors/BadRequest.js";
 import CustomError from "../errors/CustomError.js";
 import ForbiddenAccess from "../errors/ForbiddenAccess.js";
 import { checkAuthorization } from "../middleware/CheckAuthorization.js";
+import { checkIdValidationInTheProductUrl } from "../middleware/CheckIdValidationInTheProductUrl.js";
 import { checkIdValidationIntheUrl } from "../middleware/CheckIdValidationInUrl.js";
 import { checkIfAllTheContentIsGivenInProduct } from "../middleware/CheckIfAllTheContentIsGivenInProduct.js";
 import { checkIfProductExistsAndCheckTheOwner } from "../middleware/CheckIfProductExistsAndCheckOwner.js";
@@ -31,7 +32,7 @@ router.get(
     }
     const userDetails = await getUserById(req.params.userId);
 
-    delete userDetails.dataValues["password"];
+    // delete userDetails.dataValues["password"];
 
     res.status(200).send(userDetails);
   }
@@ -59,6 +60,7 @@ router.put(
 
 router.post(
   "/v1/product",
+  emptyContentCheckMiddleware,
   checkIfAllTheContentIsGivenInProduct,
   checkAuthorization,
   async (req, res) => {
@@ -68,18 +70,30 @@ router.post(
   }
 );
 
-router.patch("/v1/product/:productId", checkAuthorization, async (req, res) => {
-  await res.send("Successfully created patch");
-});
-
-router.put(
+router.patch(
   "/v1/product/:productId",
+  emptyContentCheckMiddleware,
+  checkIdValidationInTheProductUrl,
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
   async (req, res) => {
+    const response = await updateProductPut(req.body, req.params.productId);
+
+    await res.send(response);
+  }
+);
+
+router.put(
+  "/v1/product/:productId",
+  emptyContentCheckMiddleware,
+  checkIdValidationInTheProductUrl,
+  checkAuthorization,
+  checkIfProductExistsAndCheckTheOwner,
+
+  async (req, res) => {
     const { id } = req.response;
 
-    const response = await updateProductPut(req.body, id);
+    const response = await updateProductPut(req.body, req.params.productId);
 
     const productBody = await getProductById(response[0]);
 
@@ -89,6 +103,7 @@ router.put(
 
 router.delete(
   "/v1/product/:productId",
+  checkIdValidationInTheProductUrl,
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
   async (req, res) => {
@@ -96,7 +111,7 @@ router.delete(
 
     await deleteProduct(productId);
 
-    await res.status(200).send("Successfully deleted the product");
+    await res.status(204).send();
   }
 );
 

@@ -1,6 +1,4 @@
 import { Router } from "express";
-import BadRequestException from "../errors/BadRequest.js";
-import CustomError from "../errors/CustomError.js";
 import ForbiddenAccess from "../errors/ForbiddenAccess.js";
 import { checkAuthorization } from "../middleware/CheckAuthorization.js";
 import { checkIdValidationInTheProductUrl } from "../middleware/CheckIdValidationInTheProductUrl.js";
@@ -14,6 +12,7 @@ import {
   createProduct,
   deleteProduct,
   getProductById,
+  updateProductPatch,
   updateProductPut,
 } from "../service/ProductService.js";
 import { getUserById, updateTheGivenFields } from "../service/UserService.js";
@@ -77,9 +76,9 @@ router.patch(
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
   async (req, res) => {
-    const response = await updateProductPut(req.body, req.params.productId);
+    await updateProductPatch(req.body, req.params.productId);
 
-    await res.send(response);
+    await res.status(204).send();
   }
 );
 
@@ -91,13 +90,9 @@ router.put(
   checkIfProductExistsAndCheckTheOwner,
 
   async (req, res) => {
-    const { id } = req.response;
+    await updateProductPut(req.body, req.params.productId);
 
-    const response = await updateProductPut(req.body, req.params.productId);
-
-    const productBody = await getProductById(response[0]);
-
-    await res.send(productBody);
+    await res.status().send();
   }
 );
 

@@ -74,6 +74,23 @@ const updateProductPut = async (body, productId) => {
   }
 };
 
+const updateProductPatch = async (body, productId) => {
+  try {
+    const productResponse = await Product.update(
+      { ...body },
+      {
+        where: {
+          id: productId,
+        },
+      }
+    );
+
+    return await productResponse;
+  } catch (err) {
+    throw new BadRequestException("Something went wrong!!: " + err);
+  }
+};
+
 const deleteProduct = async (productId) => {
   try {
     const productResponse = await Product.destroy({
@@ -89,4 +106,10 @@ const deleteProduct = async (productId) => {
   }
 };
 
-export { createProduct, getProductById, updateProductPut, deleteProduct };
+export {
+  createProduct,
+  getProductById,
+  updateProductPut,
+  updateProductPatch,
+  deleteProduct,
+};

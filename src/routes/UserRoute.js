@@ -1,4 +1,5 @@
 import { Router } from "express";
+import ProductNotFound from "../errors/ProductNotFound.js";
 import { checkAuthorization } from "../middleware/CheckAuthorization.js";
 import { checkIdValidationInTheProductUrl } from "../middleware/CheckIdValidationInTheProductUrl.js";
 import { emptyContent } from "../middleware/CheckIfEmptyContent.js";
@@ -41,7 +42,8 @@ router.get(
 
     const returnedProductData = await getProductById(productId);
 
-    console.log(returnedProductData);
+    if (returnedProductData === null || returnedProductData === undefined)
+      throw new ProductNotFound("Product Not found for this id: " + productId);
 
     response.status(200).send(returnedProductData);
   }

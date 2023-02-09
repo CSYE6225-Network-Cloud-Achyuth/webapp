@@ -12,7 +12,7 @@ const checkIfAllTheContentIsGivenInProduct = async (req, res, next) => {
   ) {
     throw new BadRequestException("Required attributes are missing or mispelt");
   }
-
+  // Checking If we have given extra fields
   if (Object.keys(req.body).length > 5) {
     throw new BadRequestException("You have given some unnecessary field!");
   }

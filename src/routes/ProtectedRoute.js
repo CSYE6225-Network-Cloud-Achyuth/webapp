@@ -88,7 +88,7 @@ router.put(
   checkIdValidationInTheProductUrl,
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
-
+  checkIfAllTheContentIsGivenInProduct,
   async (req, res) => {
     await updateProductPut(req.body, req.params.productId);
 

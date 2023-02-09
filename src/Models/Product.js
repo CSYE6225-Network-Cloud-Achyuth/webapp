@@ -15,12 +15,15 @@ const Product = sequelize.define(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     sku: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: {
         arg: true,
         msg: "SKU already taken! Give another unique SKU",
@@ -28,6 +31,7 @@ const Product = sequelize.define(
     },
     manufacturer: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     quantity: {
       type: DataTypes.INTEGER,
@@ -35,12 +39,15 @@ const Product = sequelize.define(
         min: 0,
         max: 100,
       },
+      allowNull: false,
     },
     date_added: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
     date_last_updated: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
   },
   {

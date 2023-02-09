@@ -16,7 +16,7 @@ const createProduct = async (body, userId) => {
       sku,
       manufacturer,
       quantity,
-      user_id: userId,
+      owner_user_id: userId,
       date_added,
       date_last_updated,
     });

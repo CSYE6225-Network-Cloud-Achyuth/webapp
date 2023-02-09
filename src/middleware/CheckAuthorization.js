@@ -17,6 +17,8 @@ const checkAuthorization = async (req, res, next) => {
 
   const response = await findIfEmailExists(username);
 
+  console.log("Here is the Email: " + response);
+
   if (response === null) {
     throw new NotAuthorizedError("Invalid Email");
   } else {
@@ -29,6 +31,9 @@ const checkAuthorization = async (req, res, next) => {
   }
 
   req.response = response.dataValues;
+
+  console.log("This is authenticated!!");
+  console.log(req.response);
 
   next();
 };

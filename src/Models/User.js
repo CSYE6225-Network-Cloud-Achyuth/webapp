@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
-import { sequalize } from "../db/Sequalize.js";
+import { sequelize } from "../db/Sequalize.js";
+import { Product } from "./Product.js";
 
-const User = sequalize.define(
+const User = sequelize.define(
   "users",
   {
     id: {
@@ -35,10 +36,10 @@ const User = sequalize.define(
 );
 
 const sync = () => {
-  sequalize
+  sequelize
     .sync()
     .then(() => {
-      console.log("User Table Created");
+      console.log("Created All The Tables");
     })
     .catch((err) => {
       console.error("Unable to create table: " + err);

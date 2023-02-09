@@ -31,7 +31,7 @@ const start = async () => {
 
   // User.hasMany(Product, { as: "products" });
   Product.belongsTo(User, {
-    foreignKey: "user_id",
+    foreignKey: "owner_user_id",
     as: "user",
   });
 

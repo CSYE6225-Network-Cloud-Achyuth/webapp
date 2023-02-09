@@ -7,6 +7,7 @@ import { checkEmailRegex } from "../middleware/EmailRegexMiddleware.js";
 import { encryptPassword } from "../middleware/EncryptPassword.js";
 import { findIfEmailExistsMiddleWare } from "../middleware/FindEmail.js";
 import { checkPasswordRegex } from "../middleware/PasswordRegexMiddleWare.js";
+import { checkPayloadLengthCheckUserPost } from "../middleware/UserLoadPayLoadLengthCheck.js";
 import { getProductById } from "../service/ProductService.js";
 import { userCreate } from "../service/UserService.js";
 
@@ -18,11 +19,12 @@ router.post(
   checkEmailRegex,
   checkPasswordRegex,
   findIfEmailExistsMiddleWare,
+  checkPayloadLengthCheckUserPost,
   encryptPassword,
   async (request, response) => {
     const returnedData = await userCreate(request.body);
 
-    delete returnedData["password"];
+    delete returnedData.dataValues["password"];
 
     response.status(201).send(returnedData);
   }

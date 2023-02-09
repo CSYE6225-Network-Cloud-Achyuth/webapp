@@ -31,7 +31,7 @@ router.get(
     }
     const userDetails = await getUserById(req.params.userId);
 
-    // delete userDetails.dataValues["password"];
+    delete userDetails.dataValues["password"];
 
     res.status(200).send(userDetails);
   }

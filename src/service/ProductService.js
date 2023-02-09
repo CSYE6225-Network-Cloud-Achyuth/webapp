@@ -29,11 +29,6 @@ const createProduct = async (body, userId) => {
 
 const getProductById = async (productId) => {
   try {
-    console.log("Get by product id: " + productId);
-    // const productResponse = await Product.findByPk(productId, {
-    //   include: ["user"],
-    // });
-
     const productResponse = await Product.findByPk(productId);
 
     return await productResponse;
@@ -46,8 +41,6 @@ const getProductById = async (productId) => {
 const updateProductPut = async (body, productId) => {
   try {
     const { name, description, sku, manufacturer, quantity } = body;
-
-    console.log(body);
 
     const date_last_updated = Date.now();
 
@@ -69,15 +62,16 @@ const updateProductPut = async (body, productId) => {
 
     return await productResponse;
   } catch (err) {
-    console.error("There is an error in updating product: " + err);
     throw new BadRequestException(err.toString());
   }
 };
 
 const updateProductPatch = async (body, productId) => {
+  const date_last_updated = Date.now();
+
   try {
     const productResponse = await Product.update(
-      { ...body },
+      { ...body, date_last_updated },
       {
         where: {
           id: productId,
@@ -101,7 +95,6 @@ const deleteProduct = async (productId) => {
 
     return await productResponse;
   } catch (err) {
-    console.error("There is a problem in deleting the product: " + err);
     throw new BadRequestException(err.toString());
   }
 };

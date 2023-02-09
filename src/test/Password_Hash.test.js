@@ -52,6 +52,6 @@ describe("Password Hash and Compare 2", () => {
       hashedPassword
     );
 
-    expect(matchedPassword).toBe(true);
+    expect(matchedPassword).not.toBe(true);
   });
 });

@@ -16,7 +16,7 @@ const createProduct = async (body, userId) => {
       sku,
       manufacturer,
       quantity,
-      user_id: userId,
+      owner_user_id: userId,
       date_added,
       date_last_updated,
     });
@@ -42,7 +42,13 @@ const updateProductPut = async (body, productId) => {
   try {
     const { name, description, sku, manufacturer, quantity } = body;
 
+    console.log("Here in Update Product Put");
+
     const date_last_updated = Date.now();
+
+    console.log(body);
+
+    console.log(productId);
 
     const productResponse = await Product.update(
       {
@@ -60,8 +66,11 @@ const updateProductPut = async (body, productId) => {
       }
     );
 
+    console.log("Successfully Executed!");
+
     return await productResponse;
   } catch (err) {
+    console.log(err);
     throw new BadRequestException(err.toString());
   }
 };

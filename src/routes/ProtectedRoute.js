@@ -92,7 +92,7 @@ router.put(
   async (req, res) => {
     await updateProductPut(req.body, req.params.productId);
 
-    await res.status().send();
+    await res.status(204).send();
   }
 );
 

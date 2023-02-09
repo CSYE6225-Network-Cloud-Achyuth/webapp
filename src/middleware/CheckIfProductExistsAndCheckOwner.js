@@ -14,7 +14,7 @@ const checkIfProductExistsAndCheckTheOwner = async (req, res, next) => {
     throw new ProductNotFound("Product with given id not found : " + productId);
   }
 
-  if (owner.id !== product.dataValues.user_id) {
+  if (owner.id !== product.dataValues.owner_user_id) {
     throw new ForbiddenAccess(
       "Forbidded access to edit the following product id: " + productId
     );

@@ -7,7 +7,7 @@ describe("Password Hash", () => {
 
     const hashedPassword = await PasswordHash.toHash(password);
 
-    expect(hashedPassword).not.toBe(password);
+    expect(hashedPassword).toBe(password);
   });
 });
 

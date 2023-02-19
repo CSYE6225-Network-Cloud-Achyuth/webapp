@@ -42,7 +42,7 @@ jobs:
         run: ls -l
 
       - name: Compressing the project to the zip file
-        run: zip -r webapp.zip webapp
+        run: zip -r webapp.zip .
 
       - name: Verifying whether we have zipped it
         run: ls -l

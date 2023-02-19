@@ -106,5 +106,6 @@ dist
 package-lock.json
 
 # .github
+.DS_Store
 
-
+*.zip

@@ -31,8 +31,20 @@ sudo systemctl start mysqld.service
 
 export temp=$(sudo cat /var/log/mysqld.log | grep "A temporary password" | awk -F ' ' '{print $NF}')
 
+export DB_DATABASE=DEMO
+export DB_USERNAME=root
+export DB_PASSWORD=PaSswo#2
+export DB_HOST=localhost
+export PORT=3002
+
 #sudo mysql -u root -p123a -e  "CREATE DATABASE demo DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;use demo;create user 'db'@'localhost' identified by '123a';  grant all on testdb.* to 'db';GRANT ALL ON db.* TO ' db '@'localhost';GRANT ALL ON db.* TO ' db '@'%';FLUSH PRIVILEGES;" 
 
 # sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password#2022';CREATE DATABASE DEMO; USE DEMO;create user 'db'@'localhost' identified by '123a';  grant all on testdb.* to 'db';GRANT ALL ON db.* TO ' db '@'localhost';GRANT ALL ON db.* TO ' db '@'%';FLUSH PRIVILEGES;"
 
 sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';SET GLOBAL validate_password.policy='LOW';SET GLOBAL validate_password.length=5;CREATE DATABASE DEMO;USE DEMO;"
+
+cd /home/ec2-user && unzip ./webapp.zip
+
+npm install
+
+# npm start

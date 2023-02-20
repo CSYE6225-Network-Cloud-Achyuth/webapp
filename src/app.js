@@ -1,7 +1,7 @@
 import express from "express";
 import bodyparser from "body-parser";
 import "express-async-errors";
-import { userRouter } from "./routes/userRoute.js";
+import { userRouter } from "./routes/UserRoute.js";
 import { errorHandler } from "./middleware/ErrorHandler.js";
 import UrlNotFoundError from "./errors/UrlNotFound.js";
 import { SignInRouter } from "./routes/SignInRoute.js";

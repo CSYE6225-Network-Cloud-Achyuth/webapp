@@ -2,6 +2,16 @@
 
 sleep 30
 
+# export DB_DATABASE=USER
+# export DB_USERNAME=root
+# export DB_PASSWORD=PaSswo#2
+# export DB_HOST=localhost
+# export PORT=3002
+
+touch ~/.bash_profile
+echo -e "export DB_DATABASE=USER\nexport DB_USERNAME=root\nexport DB_PASSWORD=PaSswo#2\nexport DB_HOST=localhost\nexport PORT=3002" > ~/.bash_profile
+source ~/.bash_profile
+
 sudo yum update -y
 
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
@@ -31,8 +41,26 @@ sudo systemctl start mysqld.service
 
 export temp=$(sudo cat /var/log/mysqld.log | grep "A temporary password" | awk -F ' ' '{print $NF}')
 
+# export DB_DATABASE=USER
+# export DB_USERNAME=root
+# export DB_PASSWORD=PaSswo#2
+# export DB_HOST=localhost
+# export PORT=3002
+
 #sudo mysql -u root -p123a -e  "CREATE DATABASE demo DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;use demo;create user 'db'@'localhost' identified by '123a';  grant all on testdb.* to 'db';GRANT ALL ON db.* TO ' db '@'localhost';GRANT ALL ON db.* TO ' db '@'%';FLUSH PRIVILEGES;" 
 
 # sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password#2022';CREATE DATABASE DEMO; USE DEMO;create user 'db'@'localhost' identified by '123a';  grant all on testdb.* to 'db';GRANT ALL ON db.* TO ' db '@'localhost';GRANT ALL ON db.* TO ' db '@'%';FLUSH PRIVILEGES;"
 
-sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';SET GLOBAL validate_password.policy='LOW';SET GLOBAL validate_password.length=5;CREATE DATABASE DEMO;USE DEMO;"
+sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';CREATE DATABASE USER;USE USER;"
+
+cd /home/ec2-user && unzip ./webapp.zip
+
+
+npm install
+
+# echo -e "export DB_DATABASE=USER\nexport DB_USERNAME=root\nexport DB_PASSWORD=PaSswo#2\nexportDB_HOST=localhost\nexport PORT=3002" > /etc/profile.d/script.sh
+
+
+
+
+# npm start

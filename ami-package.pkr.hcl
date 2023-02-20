@@ -11,6 +11,7 @@ locals {
   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
 }
 
+
 source "amazon-ebs" "my_amazon_linux_image" {
   profile  = "dev"
   ami_name = "Custom_AMI-${local.timestamp}"

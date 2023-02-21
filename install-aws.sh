@@ -55,12 +55,10 @@ sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'loc
 
 cd /home/ec2-user && unzip ./webapp.zip
 
-
 npm install
 
-# echo -e "export DB_DATABASE=USER\nexport DB_USERNAME=root\nexport DB_PASSWORD=PaSswo#2\nexportDB_HOST=localhost\nexport PORT=3002" > /etc/profile.d/script.sh
 
+sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 
-
-
-# npm start
+sudo systemctl enable webapp.service
+sudo systemctl start webapp.service

@@ -68,4 +68,4 @@ sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 
 sudo systemctl enable webapp.service
 sudo systemctl start webapp.service
-
+sudo systemctl restart nginx

@@ -16,7 +16,7 @@ source "amazon-ebs" "my_amazon_linux_image" {
   profile  = "dev"
   ami_name = "Custom_AMI-${local.timestamp}"
 
-  ami_users = ["141894463187", "808076149364"]
+  ami_users = ["808076149364"]
 
   source_ami_filter {
     filters = {

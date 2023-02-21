@@ -17,11 +17,16 @@ sudo yum update -y
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
 
-
+# Installing and starting MySQL Service
 sudo amazon-linux-extras install epel -y 
 sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm -y
 sudo yum install mysql-community-server -y
 sudo systemctl start mysqld.service
+
+# Installing NGINX and Starting it
+sudo yum install nginx -y
+sudo systemctl start nginx
+
 
 
 # To get the temporary password
@@ -57,8 +62,10 @@ cd /home/ec2-user && unzip ./webapp.zip
 
 npm install
 
+sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
-# sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
+sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 
-# sudo systemctl enable webapp.service
-# sudo systemctl start webapp.service
+sudo systemctl enable webapp.service
+sudo systemctl start webapp.service
+

@@ -8,9 +8,9 @@ sleep 30
 # export DB_HOST=localhost
 # export PORT=3002
 
-touch ~/.bash_profile
-echo -e "export DB_DATABASE=USER\nexport DB_USERNAME=root\nexport DB_PASSWORD=PaSswo#2\nexport DB_HOST=localhost\nexport PORT=3002" > ~/.bash_profile
-source ~/.bash_profile
+# touch ~/.bash_profile
+# echo -e "export DB_DATABASE=USER\nexport DB_USERNAME=root\nexport DB_PASSWORD=PaSswo#2\nexport DB_HOST=localhost\nexport PORT=3002" > ~/.bash_profile
+# source ~/.bash_profile
 
 sudo yum update -y
 
@@ -25,7 +25,6 @@ sudo systemctl start mysqld.service
 
 # Installing NGINX and Starting it
 sudo yum install nginx -y
-sudo systemctl start nginx
 
 
 
@@ -66,6 +65,6 @@ sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
 sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 
-sudo systemctl enable webapp.service
-sudo systemctl start webapp.service
-sudo systemctl restart nginx
+# sudo systemctl enable webapp.service
+# sudo systemctl start webapp.service
+# sudo systemctl restart nginx

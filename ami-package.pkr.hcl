@@ -51,7 +51,7 @@ build {
 
   provisioner "file" {
     source = "./nginx.conf"
-    destination = "/temp/nginx.conf"
+    destination = "/tmp/nginx.conf"
   }
 
 

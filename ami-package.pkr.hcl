@@ -44,16 +44,19 @@ build {
     destination = "/home/ec2-user/webapp.zip"
   }
 
-  // provisioner "file" {
-  //   source      = "./webapp.service"
-  //   destination = "/tmp/webapp.service"
-  // }
+  provisioner "file" {
+    source      = "./webapp.service"
+    destination = "/tmp/webapp.service"
+  }
+
+  provisioner "file" {
+    source = "./nginx.conf"
+    destination = "/temp/nginx.conf"
+  }
 
 
   provisioner "shell" {
     script = "./install-aws.sh"
   }
-
-
 
 }

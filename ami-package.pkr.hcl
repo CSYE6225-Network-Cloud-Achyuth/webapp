@@ -44,6 +44,11 @@ build {
     destination = "/home/ec2-user/webapp.zip"
   }
 
+  // provisioner "file" {
+  //   source      = "./webapp.service"
+  //   destination = "/tmp/webapp.service"
+  // }
+
 
   provisioner "shell" {
     script = "./install-aws.sh"

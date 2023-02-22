@@ -35,6 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Compressing the project to the zip file
+        run: zip -r webapp.zip .
+
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
         id: setup

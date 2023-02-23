@@ -1,0 +1,9 @@
+region                      = "us-east-1"
+profile                     = "dev"
+filters_owners              = ["amazon"]
+instance_type               = "t2-micro"
+ssh_username                = "ec2-user"
+ami_users                   = ["808076149364"]
+filters_name                = "amzn2-ami-kernel-5.10-hvm-2.0.20230207.0-x86_64-gp2"
+filters_root-device-type    = "ebs"
+filters_virtualization_type = "hvm"

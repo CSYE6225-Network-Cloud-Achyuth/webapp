@@ -40,7 +40,7 @@ source "amazon-ebs" "my_amazon_linux_image" {
   // source_ami    = "ami-0dfcb1ef8550277af"
   instance_type = var.instance_type
   region        = var.region
-  ssh_username  = var.ssh_username
+  // ssh_username  = var.ssh_username
 }
 
 build {

@@ -1,3 +1,5 @@
+#run: "packer validate -var 'ak=${{ secrets.AWS_ACCESS_KEY_ID }}' -var 'sk=${{ secrets.AWS_SECRET_ACCESS_KEY }}' --var-file=aws.pkvars.hcl ami.pkr.hcl"
+
 packer {
   required_plugins {
     amazon = {
@@ -13,21 +15,21 @@ locals {
 
 
 source "amazon-ebs" "my_amazon_linux_image" {
-  profile  = "dev"
+  profile  = var.profile
   ami_name = "Custom_AMI-${local.timestamp}"
 
   // Added AMI Users
-  ami_users = ["808076149364"]
+  ami_users = var.ami_users
 
   source_ami_filter {
     filters = {
-      name                = "amzn2-ami-kernel-5.10-hvm-2.0.20230207.0-x86_64-gp2"
-      root-device-type    = "ebs"
-      virtualization-type = "hvm"
+      name                = var.filters_name
+      root-device-type    = var.filters_root-device-type
+      virtualization-type = var.filters_virtualization_type
     }
     most_recent = true
 
-    owners = ["amazon"]
+    owners = var.filters_owners
   }
 
   // launch_block_device_mappings {
@@ -36,9 +38,9 @@ source "amazon-ebs" "my_amazon_linux_image" {
 
 
   // source_ami    = "ami-0dfcb1ef8550277af"
-  instance_type = "t2.micro"
-  region        = "us-east-1"
-  ssh_username  = "ec2-user"
+  instance_type = var.instance_type
+  region        = var.region
+  ssh_username  = var.ssh_username
 }
 
 build {
@@ -57,7 +59,7 @@ build {
   }
 
   provisioner "file" {
-    source = "./nginx.conf"
+    source      = "./nginx.conf"
     destination = "/tmp/nginx.conf"
   }
 

@@ -14,14 +14,16 @@ sleep 30
 
 sudo yum update -y
 
+sudo yum upgrade -y
+
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
 
 # Installing and starting MySQL Service
 sudo amazon-linux-extras install epel -y 
-sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm -y
-sudo yum install mysql-community-server -y
-sudo systemctl start mysqld.service
+# sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-5.noarch.rpm -y
+# sudo yum install mysql-community-server -y
+# sudo systemctl start mysqld.service
 
 # Installing NGINX and Starting it
 sudo yum install nginx -y
@@ -43,7 +45,7 @@ sudo yum install nginx -y
 # export ext=$(awk -F ' ' '{print $NF}' mysql_password.txt)
 
 
-export temp=$(sudo cat /var/log/mysqld.log | grep "A temporary password" | awk -F ' ' '{print $NF}')
+# export temp=$(sudo cat /var/log/mysqld.log | grep "A temporary password" | awk -F ' ' '{print $NF}')
 
 # export DB_DATABASE=USER
 # export DB_USERNAME=root
@@ -55,17 +57,17 @@ export temp=$(sudo cat /var/log/mysqld.log | grep "A temporary password" | awk -
 
 # sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'Password#2022';CREATE DATABASE DEMO; USE DEMO;create user 'db'@'localhost' identified by '123a';  grant all on testdb.* to 'db';GRANT ALL ON db.* TO ' db '@'localhost';GRANT ALL ON db.* TO ' db '@'%';FLUSH PRIVILEGES;"
 
-sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';CREATE DATABASE USER;USE USER;"
 
-cd /home/ec2-user && unzip ./webapp.zip
+# sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';CREATE DATABASE USER;USE USER;"
+# cd /home/ec2-user && unzip ./webapp.zip
 
-chmod -R 700 .
+# chmod -R 700 .
 
-npm install
+# npm install
 
 sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf
 
-sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
+# sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 
 # sudo systemctl enable webapp.service
 # sudo systemctl start webapp.service

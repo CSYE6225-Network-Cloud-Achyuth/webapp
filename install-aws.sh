@@ -59,11 +59,11 @@ sudo yum install nginx -y
 
 
 # sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';CREATE DATABASE USER;USE USER;"
-# cd /home/ec2-user && unzip ./webapp.zip
+cd /home/ec2-user && unzip ./webapp.zip
 
-# chmod -R 700 .
+chmod -R 700 .
 
-# npm install
+npm install
 
 sudo mv /tmp/nginx.conf /etc/nginx/nginx.conf
 

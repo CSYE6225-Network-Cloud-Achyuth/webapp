@@ -93,4 +93,24 @@ const ImageDelete = async (productId, imageId) => {
   return await imageDelete;
 };
 
-export { ImageUpload, ImageDelete, ImageGetAll, ImageGetSpecific };
+const FindImageIdAndProductId = async (product_id, image_id) => {
+  try {
+    const imageResponse = await Image.findOne({
+      where: {
+        image_id,
+        product_id,
+      },
+    });
+    return await imageResponse;
+  } catch (error) {
+    throw new BadRequestException(error);
+  }
+};
+
+export {
+  ImageUpload,
+  ImageDelete,
+  ImageGetAll,
+  ImageGetSpecific,
+  FindImageIdAndProductId,
+};

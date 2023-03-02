@@ -9,6 +9,10 @@ import {
   ImageGetSpecific,
 } from "../service/ImageService.js";
 import * as url from "url";
+import { checkIdValidationIntheUrl } from "../middleware/CheckIdValidationInUrl.js";
+import { checkIfProductExistsAndCheckTheOwner } from "../middleware/CheckIfProductExistsAndCheckOwner.js";
+import { checkValidIdProductUrl } from "../middleware/checkValidProductIdUrl.js";
+import { CheckIfValidProductIDAndImageIdGiven } from "../middleware/CheckIfValidProductIDAndImageIdGiven.js";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const upload = multer({
@@ -35,6 +39,8 @@ router.post(
   "/v1/product/:productId/image",
   upload.single("image"),
   checkAuthorization,
+  checkValidIdProductUrl,
+  checkIfProductExistsAndCheckTheOwner,
   async (request, response) => {
     try {
       const file = request.file;
@@ -59,6 +65,8 @@ router.post(
 router.get(
   "/v1/product/:productId/image",
   checkAuthorization,
+  checkValidIdProductUrl,
+  checkIfProductExistsAndCheckTheOwner,
   async (request, response) => {
     const result = await ImageGetAll(request.params.productId);
 
@@ -69,6 +77,9 @@ router.get(
 router.get(
   "/v1/product/:productId/image/:imageId",
   checkAuthorization,
+  checkValidIdProductUrl,
+  checkIfProductExistsAndCheckTheOwner,
+  CheckIfValidProductIDAndImageIdGiven,
   async (request, response) => {
     const { productId, imageId } = request.params;
 
@@ -80,10 +91,11 @@ router.get(
 
 router.delete(
   "/v1/product/:productId/image/:imageId",
+  checkValidIdProductUrl,
+  checkIfProductExistsAndCheckTheOwner,
+  CheckIfValidProductIDAndImageIdGiven,
   async (request, response) => {
     const { productId, imageId } = request.params;
-
-    console.log(imageId);
 
     await ImageDelete(productId, imageId);
 

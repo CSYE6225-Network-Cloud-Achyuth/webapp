@@ -9,18 +9,7 @@ import {
   ImageGetSpecific,
 } from "../service/ImageService.js";
 const upload = multer({
-  dest: "uploads/",
-  // fileFilter: (req, file, callback) => {
-  //   if (
-  //     file.mimetype !== "png" ||
-  //     file.mimetype !== "image/jpg" ||
-  //     file.mimetype !== "image/jpeg"
-  //   ) {
-  //     throw new BadRequestException(
-  //       "Invalid Image Type!, please give the valid image extension"
-  //     );
-  //   }
-  // },
+  dest: __dirname + "uploads/",
 });
 
 const router = Router();

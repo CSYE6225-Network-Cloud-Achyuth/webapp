@@ -66,8 +66,6 @@ const updateProductPut = async (body, productId) => {
       }
     );
 
-    console.log("Successfully Executed!");
-
     return await productResponse;
   } catch (err) {
     console.log(err);

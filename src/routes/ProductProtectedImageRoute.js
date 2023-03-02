@@ -13,6 +13,20 @@ const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const upload = multer({
   dest: __dirname + "uploads/",
+  fileFilter: (req, file, callback) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      callback(null, true);
+    } else {
+      callback(null, false);
+      return callback(
+        new BadRequestException("Only .png, .jpg and .jpeg format are allowed")
+      );
+    }
+  },
 });
 
 const router = Router();
@@ -25,7 +39,9 @@ router.post(
     try {
       const file = request.file;
 
-      console.log(request.response);
+      if (file === undefined || file === null) {
+        throw new BadRequestException("Please provide the file");
+      }
 
       const result = await ImageUpload(
         file,

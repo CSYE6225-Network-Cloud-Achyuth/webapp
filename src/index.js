@@ -22,7 +22,7 @@ const start = async () => {
   // syncProduct();
 
   sequelize
-    .sync()
+    .sync({ alter: true })
     .then(() => {
       console.log("Created all the tables!!");
     })

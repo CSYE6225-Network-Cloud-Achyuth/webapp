@@ -3,12 +3,19 @@ import { Image } from "../Models/Image.js";
 import { deleteTheFile } from "../utils/AWS_S3.js";
 import { Product } from "../Models/Product.js";
 import BadRequestException from "../errors/BadRequest.js";
+import { v4 } from "uuid";
 
 const ImageUpload = async (file, productId, userDetails) => {
   try {
+    // if (!file.mimetype.startWith("images/")) {
+    //   throw new BadRequestException("Please give valid image extension");
+    // }
+
     const product = await Product.findByPk(productId);
 
-    const fileName = `UserID:${userDetails.id}/ProductID:${product.dataValues.id}/${file.originalname}`;
+    const fileName = `UserID:${userDetails.id}/ProductID:${
+      product.dataValues.id
+    }/${v4()}/${file.originalname}`;
 
     const imageResponseByFileName = await ImageExistsByFileName(fileName);
 
@@ -18,8 +25,6 @@ const ImageUpload = async (file, productId, userDetails) => {
     }
 
     const result = await uploadFile(file, fileName);
-
-    console.log(result);
 
     const imageResponse = await Image.create({
       product_id: productId,

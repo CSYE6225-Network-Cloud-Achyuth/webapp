@@ -4,12 +4,7 @@ After=network.target
 Wants=mysqld.service
 
 [Service]
-# Environment=PORT=3002
-# Environment=DB_USERNAME=root
-# Environment=DB_DATABASE=USER
-# Environment=DB_PASSWORD=PaSswo#2
-# Environment=DB_HOST=localhost
-EnvironmentFile=/home/ec2-user/.env 
+EnvironmentFile=/home/ec2-user/.env
 Type=simple
 User=ec2-user
 ExecStart=/usr/bin/node /home/ec2-user/src/index.js
@@ -20,14 +15,3 @@ StartLimitInterval=0
 
 [Install]
 WantedBy=multi-user.target
-
-# echo export <env_name>="${resource}" >> /etc/environment
-# echo DB_DATABASE="${aws_db_instance.mysql_database.db_name}" >> .env
-# echo DB_USERNAME="${aws_db_instance.mysql_database.username}" >> .env
-# echo DB_PASSWORD="${aws_db_instance.mysql_database.password}" >> .env
-# echo DB_HOST="${aws_db_instance.mysql_database.address}" >> .env
-
-# echo DB_USERNAME="${aws_db_instance.mysql_database.username}" >> /etc/environment
-# echo DB_PASSWORD="${aws_db_instance.mysql_database.password}" >> /etc/environment
-# echo DB_HOST="${aws_db_instance.mysql_database.address}" >> /etc/environment
-

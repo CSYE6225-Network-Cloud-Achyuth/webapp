@@ -32,9 +32,6 @@ const checkAuthorization = async (req, res, next) => {
 
   req.response = response.dataValues;
 
-  console.log("This is authenticated!!");
-  console.log(req.response);
-
   next();
 };
 

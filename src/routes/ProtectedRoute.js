@@ -6,6 +6,7 @@ import { checkIdValidationIntheUrl } from "../middleware/CheckIdValidationInUrl.
 import { checkIfAllTheContentIsGivenInProduct } from "../middleware/CheckIfAllTheContentIsGivenInProduct.js";
 import { checkIfProductExistsAndCheckTheOwner } from "../middleware/CheckIfProductExistsAndCheckOwner.js";
 import { checkPayloadKeyValueEmpty } from "../middleware/CheckPutPayloadContent.js";
+import { checkQuantityNumber } from "../middleware/CheckQuantityNumber.js";
 import { emptyContentCheckMiddleware } from "../middleware/EmptyContentCheckMiddleware.js";
 import { checkPasswordRegex } from "../middleware/PasswordRegexMiddleWare.js";
 import {
@@ -62,6 +63,7 @@ router.post(
   emptyContentCheckMiddleware,
   checkIfAllTheContentIsGivenInProduct,
   checkAuthorization,
+  checkQuantityNumber,
   async (req, res) => {
     const createdProduct = await createProduct(req.body, req.response.id);
 
@@ -75,6 +77,7 @@ router.patch(
   checkIdValidationInTheProductUrl,
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
+  checkQuantityNumber,
   async (req, res) => {
     await updateProductPatch(req.body, req.params.productId);
 
@@ -89,6 +92,7 @@ router.put(
   checkAuthorization,
   checkIfProductExistsAndCheckTheOwner,
   checkIfAllTheContentIsGivenInProduct,
+  checkQuantityNumber,
   async (req, res) => {
     await updateProductPut(req.body, req.params.productId);
 

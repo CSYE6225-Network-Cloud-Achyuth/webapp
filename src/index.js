@@ -2,6 +2,7 @@ import { app } from "./app.js";
 import { sequelize } from "./db/Sequalize.js";
 import { sync, User } from "./Models/User.js";
 import { Product, syncProduct } from "./Models/Product.js";
+import { Image } from "./Models/Image.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -21,7 +22,7 @@ const start = async () => {
   // syncProduct();
 
   sequelize
-    .sync()
+    .sync({ alter: true })
     .then(() => {
       console.log("Created all the tables!!");
     })
@@ -33,6 +34,11 @@ const start = async () => {
   Product.belongsTo(User, {
     foreignKey: "owner_user_id",
     as: "user",
+  });
+
+  Image.belongsTo(Product, {
+    foreignKey: "product_id",
+    as: "product",
   });
 
   app.listen(PORT, () => {

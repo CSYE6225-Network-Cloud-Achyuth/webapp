@@ -7,6 +7,8 @@ const errorHandler = async (err, req, res, next) => {
     return res.status(err.statusCode).send({ errors: err.serializeError() });
   }
 
+  console.error(err);
+
   res.status(400).send({
     message: "Something went wrong",
   });

@@ -91,6 +91,7 @@ router.get(
 
 router.delete(
   "/v1/product/:productId/image/:imageId",
+  checkAuthorization,
   checkValidIdProductUrl,
   checkIfProductExistsAndCheckTheOwner,
   CheckIfValidProductIDAndImageIdGiven,

@@ -1,6 +1,7 @@
 import BadRequestException from "../errors/BadRequest.js";
 import { Product } from "../Models/Product.js";
 import { User } from "../Models/User.js";
+import { logger } from "../winston-log/winston.js";
 
 const createProduct = async (body, userId) => {
   const { name, description, sku, manufacturer, quantity } = body;
@@ -22,7 +23,7 @@ const createProduct = async (body, userId) => {
     });
     return await productResponse;
   } catch (err) {
-    console.error("Failed to create product" + err);
+    logger.error("Failed to create product" + err);
     throw new BadRequestException(err.toString());
   }
 };
@@ -33,7 +34,7 @@ const getProductById = async (productId) => {
 
     return await productResponse;
   } catch (err) {
-    console.error("Failed to fetch the product ID: " + err);
+    logger.error("Failed to fetch the product ID: " + err);
     throw new BadRequestException(err.toString());
   }
 };
@@ -42,13 +43,7 @@ const updateProductPut = async (body, productId) => {
   try {
     const { name, description, sku, manufacturer, quantity } = body;
 
-    console.log("Here in Update Product Put");
-
     const date_last_updated = Date.now();
-
-    console.log(body);
-
-    console.log(productId);
 
     const productResponse = await Product.update(
       {
@@ -68,7 +63,7 @@ const updateProductPut = async (body, productId) => {
 
     return await productResponse;
   } catch (err) {
-    console.log(err);
+    logger.error(err.toString());
     throw new BadRequestException(err.toString());
   }
 };
@@ -88,6 +83,7 @@ const updateProductPatch = async (body, productId) => {
 
     return await productResponse;
   } catch (err) {
+    logger.error(err.toString());
     throw new BadRequestException("Something went wrong!!: " + err);
   }
 };
@@ -102,6 +98,7 @@ const deleteProduct = async (productId) => {
 
     return await productResponse;
   } catch (err) {
+    logger.error(err.toString());
     throw new BadRequestException(err.toString());
   }
 };

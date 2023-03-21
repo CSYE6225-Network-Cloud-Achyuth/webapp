@@ -1,11 +1,13 @@
 import NotAuthorizedError from "../errors/NotAuthorized.js";
 import { findIfEmailExists } from "../service/UserService.js";
 import PasswordHash from "../utils/Password_hash.js";
+import { logger } from "../winston-log/winston.js";
 
 const checkAuthorization = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (authorization === undefined) {
+    logger.error("User didn't provide the Auth code");
     throw new NotAuthorizedError("Authorization code not found");
   }
 
@@ -20,6 +22,8 @@ const checkAuthorization = async (req, res, next) => {
   console.log("Here is the Email: " + response);
 
   if (response === null) {
+    logger.error("Invalid Email");
+
     throw new NotAuthorizedError("Invalid Email");
   } else {
     const match = await PasswordHash.comparePassword(
@@ -27,7 +31,10 @@ const checkAuthorization = async (req, res, next) => {
       response.password
     );
 
-    if (!match) throw new NotAuthorizedError("Invalid Password");
+    if (!match) {
+      logger.error("Password didn't match");
+      throw new NotAuthorizedError("Invalid Password");
+    }
   }
 
   req.response = response.dataValues;

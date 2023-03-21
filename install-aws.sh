@@ -61,7 +61,7 @@ sudo yum install nginx -y
 # sudo mysql -u root -p$temp --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PaSswo#2';CREATE DATABASE USER;USE USER;"
 cd /home/ec2-user && unzip ./webapp.zip
 
-chmod -R 700 .
+# chmod -R 700 .
 
 npm install
 
@@ -73,4 +73,14 @@ sudo mv /tmp/webapp.service /etc/systemd/system/webapp.service
 # sudo systemctl start webapp.service
 # sudo systemctl restart nginx
 
+# Installing AWS Cloudwatch Agent
+sudo yum install amazon-cloudwatch-agent -y
+
+sudo mv /tmp/cloud-watch-config.json /home/ec2-user/cloud-watch-config.json
+
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+#     -a fetch-config \
+#     -m ec2 \
+#     -c file:/home/ec2-user/cloudwatch-config.json \
+#     -s
 

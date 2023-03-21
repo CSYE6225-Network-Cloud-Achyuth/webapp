@@ -7,6 +7,15 @@ import UrlNotFoundError from "./errors/UrlNotFound.js";
 import { SignInRouter } from "./routes/SignInRoute.js";
 import { ProtectedRoutes } from "./routes/ProtectedRoute.js";
 import { ImageRouter } from "./routes/ProductProtectedImageRoute.js";
+// import SDC from "statsd-client";
+
+const getSDC = () => {
+  const sdc = new SDC({
+    host: "localhost",
+    port: 8125,
+  });
+  return sdc;
+};
 
 const app = express();
 
@@ -27,4 +36,4 @@ app.all("*", async (req) => {
 // Middlewares
 app.use(errorHandler);
 
-export { app };
+export { app, getSDC };

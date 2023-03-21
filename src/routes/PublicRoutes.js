@@ -10,6 +10,8 @@ import { checkPasswordRegex } from "../middleware/PasswordRegexMiddleWare.js";
 import { checkPayloadLengthCheckUserPost } from "../middleware/UserLoadPayLoadLengthCheck.js";
 import { getProductById } from "../service/ProductService.js";
 import { userCreate } from "../service/UserService.js";
+import { sdc } from "../statsd/StatsD.js";
+import { logger, winston } from "../winston-log/winston.js";
 
 const router = Router();
 
@@ -26,13 +28,23 @@ router.post(
 
     delete returnedData.dataValues["password"];
 
+    logger.info("Created User: " + returnedData);
+
     response.status(201).send(returnedData);
   }
 );
 
-router.get("/healthz", async (request, respond) => {
-  respond.status(200).send();
-});
+router.get(
+  "/healthz",
+  // sdc.helpers.getExpressMiddleware("healthz"),
+  async (request, respond) => {
+    // request.pipe();
+
+    logger.info("Triggered Healthz");
+
+    respond.status(200).send();
+  }
+);
 
 router.get(
   "/v1/product/:productId",
@@ -40,12 +52,13 @@ router.get(
   async (request, response) => {
     const { productId } = request.params;
 
-    console.log("Product ID: " + productId);
-
     const returnedProductData = await getProductById(productId);
 
-    if (returnedProductData === null || returnedProductData === undefined)
+    if (returnedProductData === null || returnedProductData === undefined) {
+      logger.error("Given Product ID Not Found: " + productId);
+
       throw new ProductNotFound("Product Not found for this id: " + productId);
+    }
 
     response.status(200).send(returnedProductData);
   }

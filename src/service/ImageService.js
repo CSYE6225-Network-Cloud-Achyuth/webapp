@@ -4,6 +4,7 @@ import { deleteTheFile } from "../utils/AWS_S3.js";
 import { Product } from "../Models/Product.js";
 import BadRequestException from "../errors/BadRequest.js";
 import { v4 } from "uuid";
+import { logger } from "../winston-log/winston.js";
 
 const ImageUpload = async (file, productId, userDetails) => {
   try {
@@ -21,6 +22,7 @@ const ImageUpload = async (file, productId, userDetails) => {
 
     // Seeing if the image already exists
     if (imageResponseByFileName) {
+      logger.error("Image already exists for the same path ");
       throw new BadRequestException("Can't give the same image model");
     }
 
@@ -32,6 +34,8 @@ const ImageUpload = async (file, productId, userDetails) => {
       file_name: fileName,
       date_created: Date.now(),
     });
+
+    logger.info("Successfully Uploaded the image: " + imageResponse);
 
     return imageResponse;
   } catch (err) {
@@ -49,6 +53,9 @@ const ImageGetAll = async (productId) => {
     return await imageResponse;
   } catch (error) {
     console.error(error);
+    logger.error(
+      "Couldn't able to fetch the image with given ID: " + productId
+    );
     throw new BadRequestException(error);
   }
 };
@@ -61,7 +68,7 @@ const ImageGetSpecific = async (productId, imageId) => {
 
     return await imageResponse;
   } catch (error) {
-    console.error(error);
+    logger.error("Couldn't able to fetch specific image id: " + imageId);
     throw new BadRequestException(error);
   }
 };

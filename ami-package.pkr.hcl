@@ -64,6 +64,12 @@ build {
   }
 
 
+  provisioner "file" {
+    source      = "./cloud-watch-config.json"
+    destination = "/tmp/cloud-watch-config.json"
+  }
+
+
   provisioner "shell" {
     script = "./install-aws.sh"
   }

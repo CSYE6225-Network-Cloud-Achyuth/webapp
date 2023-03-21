@@ -1,4 +1,5 @@
 import BadRequestException from "../errors/BadRequest.js";
+import { logger } from "../winston-log/winston.js";
 
 const checkIdValidationIntheUrl = async (req, res, next) => {
   const isNumeric = function (str) {
@@ -10,6 +11,10 @@ const checkIdValidationIntheUrl = async (req, res, next) => {
   };
 
   if (!isNumeric(req.params.userId)) {
+    logger.error(
+      "Please give the valid number of the user id in the url: " +
+        req.params.userId
+    );
     throw new BadRequestException(
       "Please give the valid number of the user id in the url"
     );

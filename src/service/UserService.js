@@ -1,6 +1,7 @@
 import BadRequestException from "../errors/BadRequest.js";
 import { User } from "../Models/User.js";
 import PasswordHash from "../utils/Password_hash.js";
+import { logger } from "../winston-log/winston.js";
 
 const userCreate = async (body) => {
   const { first_name, last_name, username, password } = body;
@@ -21,7 +22,7 @@ const userCreate = async (body) => {
 
     return await response;
   } catch (err) {
-    console.error("Failed to create");
+    logger.error("Failed to create: " + err);
   }
 };
 
@@ -30,7 +31,7 @@ const getUserById = async (userId) => {
     const response = await User.findByPk(userId);
     return await response;
   } catch (err) {
-    console.error("Failed to Extract by Id: " + err);
+    logger.error("Failed to Extract by Id: " + err);
   }
 };
 
@@ -41,7 +42,7 @@ const getAllUsers = async () => {
     });
     return await response;
   } catch (err) {
-    console.error("Failed to extract");
+    logger.error("Failed to extract:" + err);
   }
 };
 
@@ -50,7 +51,7 @@ const findIfEmailExists = async (username) => {
     const response = await User.findOne({ where: { username } });
     return await response;
   } catch (err) {
-    console.error("Failed to extract");
+    logger.error("Failed to extract: " + err);
   }
 };
 
@@ -93,7 +94,7 @@ const updateTheGivenFields = async (body, id) => {
 
     return await response;
   } catch (err) {
-    console.error("Failed To Extract");
+    logger.error("Failed To Extract: " + err);
   }
 };
 

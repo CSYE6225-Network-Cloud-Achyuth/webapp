@@ -1,4 +1,5 @@
 import BadRequestException from "../errors/BadRequest.js";
+import { logger } from "../winston-log/winston.js";
 
 const checkPasswordRegex = async (req, res, next) => {
   const { password } = req.body;
@@ -11,6 +12,8 @@ const checkPasswordRegex = async (req, res, next) => {
   const passwordRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,}$/);
 
   if (!passwordRegex.test(password) || password === "") {
+    logger.error("Invalid Password provided");
+
     throw new BadRequestException(
       "Please give valid english alphabet and one number in the password with min length of 3"
     );

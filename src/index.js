@@ -53,6 +53,10 @@ const start = async () => {
     );
   }
 
+  sdc.socket.on("error", function (error) {
+    return console.error("Error in socket: ", error);
+  });
+
   app.listen(PORT, () => {
     console.log(`Running on PORT: ${PORT}`);
   });

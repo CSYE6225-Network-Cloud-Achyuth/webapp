@@ -36,9 +36,11 @@ router.post(
 
 router.get(
   "/healthz",
-  // sdc.helpers.getExpressMiddleware("healthz"),
+  sdc.helpers.getExpressMiddleware("healthz"),
   async (request, respond) => {
     // request.pipe();
+
+    sdc.increment("some.healthzin");
 
     logger.info("Triggered Healthz");
 

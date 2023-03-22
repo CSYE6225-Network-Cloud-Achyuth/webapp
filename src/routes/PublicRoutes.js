@@ -12,7 +12,6 @@ import { getProductById } from "../service/ProductService.js";
 import { userCreate } from "../service/UserService.js";
 import { sdc } from "../statsd/StatsD.js";
 import { logger, winston } from "../winston-log/winston.js";
-import StatsD from "node-statsd";
 
 const router = Router();
 
@@ -24,7 +23,7 @@ router.post(
   findIfEmailExistsMiddleWare,
   checkPayloadLengthCheckUserPost,
   encryptPassword,
-  sdc.helpers.getExpressMiddleware("create_user"),
+  // sdc.helpers.getExpressMiddleware("create_user"),
   async (request, response) => {
     const returnedData = await userCreate(request.body);
 
@@ -40,7 +39,7 @@ router.post(
 
 router.get(
   "/healthz",
-  sdc.helpers.getExpressMiddleware("healthz"),
+  // sdc.helpers.getExpressMiddleware("healthz"),
   async (request, respond) => {
     // request.pipe();
     // const client = new StatsD({ host: "localhost", port: "8125" });
@@ -56,7 +55,7 @@ router.get(
 router.get(
   "/v1/product/:productId",
   checkIdValidationInTheProductUrl,
-  sdc.helpers.getExpressMiddleware("get_product"),
+  // sdc.helpers.getExpressMiddleware("get_product"),
   async (request, response) => {
     const { productId } = request.params;
 

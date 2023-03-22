@@ -15,6 +15,7 @@ import { checkValidIdProductUrl } from "../middleware/checkValidProductIdUrl.js"
 import { CheckIfValidProductIDAndImageIdGiven } from "../middleware/CheckIfValidProductIDAndImageIdGiven.js";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 import { logger } from "../winston-log/winston.js";
+import { sdc } from "../statsd/StatsD.js";
 
 const upload = multer({
   dest: __dirname + "uploads/",
@@ -60,6 +61,8 @@ router.post(
 
       logger.info("Successfully uploaded the image to the S3 Bucket");
 
+      sdc.increment("webapp.postImage");
+
       response.send(result);
     } catch (err) {
       throw new BadRequestException(err);
@@ -75,7 +78,9 @@ router.get(
   async (request, response) => {
     const result = await ImageGetAll(request.params.productId);
 
-    logger.info("Successfully fetched the image details of the ");
+    logger.info("Successfully fetched the image details");
+
+    sdc.increment("webapp.getImage");
 
     response.send(result);
   }
@@ -92,6 +97,8 @@ router.get(
 
     const result = await ImageGetSpecific(productId, imageId);
 
+    sdc.increment("webapp.getImageById");
+
     response.send(result);
   }
 );
@@ -106,6 +113,8 @@ router.delete(
     const { productId, imageId } = request.params;
 
     await ImageDelete(productId, imageId);
+
+    sdc.increment("webapp.deleteImage");
 
     response.status(204).send();
   }

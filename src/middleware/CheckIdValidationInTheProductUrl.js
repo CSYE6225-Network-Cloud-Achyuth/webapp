@@ -1,4 +1,5 @@
 import BadRequestException from "../errors/BadRequest.js";
+import { logger } from "../winston-log/winston.js";
 
 const checkIdValidationInTheProductUrl = async (req, res, next) => {
   const isNumeric = function (str) {
@@ -10,6 +11,10 @@ const checkIdValidationInTheProductUrl = async (req, res, next) => {
   };
 
   if (!isNumeric(req.params.productId)) {
+    logger.error(
+      "User provided a string in the product id creation url: " +
+        req.params.productId
+    );
     throw new BadRequestException(
       "Please give the valid number of the product id in the url"
     );

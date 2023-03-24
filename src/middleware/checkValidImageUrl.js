@@ -1,4 +1,5 @@
 import BadRequestException from "../errors/BadRequest.js";
+import { logger } from "../winston-log/winston.js";
 
 const checkValidImageIDUrl = async (req, res, next) => {
   const isNumeric = function (str) {
@@ -10,6 +11,8 @@ const checkValidImageIDUrl = async (req, res, next) => {
   };
 
   if (!isNumeric(req.params.imageId)) {
+    logger.error("Please give the valid number of the image id in the url");
+
     throw new BadRequestException(
       "Please give the valid number of the image id in the url"
     );

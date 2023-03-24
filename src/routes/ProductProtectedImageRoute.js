@@ -14,6 +14,8 @@ import { checkIfProductExistsAndCheckTheOwner } from "../middleware/CheckIfProdu
 import { checkValidIdProductUrl } from "../middleware/checkValidProductIdUrl.js";
 import { CheckIfValidProductIDAndImageIdGiven } from "../middleware/CheckIfValidProductIDAndImageIdGiven.js";
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+import { logger } from "../winston-log/winston.js";
+import { sdc } from "../statsd/StatsD.js";
 
 const upload = multer({
   dest: __dirname + "uploads/",
@@ -26,6 +28,7 @@ const upload = multer({
       callback(null, true);
     } else {
       callback(null, false);
+      logger.error("Provided invalid file extension...");
       return callback(
         new BadRequestException("Only .png, .jpg and .jpeg format are allowed")
       );
@@ -46,6 +49,7 @@ router.post(
       const file = request.file;
 
       if (file === undefined || file === null) {
+        logger.error("User didn't provide the file");
         throw new BadRequestException("Please provide the file");
       }
 
@@ -54,6 +58,10 @@ router.post(
         request.params.productId,
         request.response
       );
+
+      logger.info("Successfully uploaded the image to the S3 Bucket");
+
+      sdc.increment("webapp.postImage");
 
       response.send(result);
     } catch (err) {
@@ -70,6 +78,10 @@ router.get(
   async (request, response) => {
     const result = await ImageGetAll(request.params.productId);
 
+    logger.info("Successfully fetched the image details");
+
+    sdc.increment("webapp.getImage");
+
     response.send(result);
   }
 );
@@ -85,6 +97,8 @@ router.get(
 
     const result = await ImageGetSpecific(productId, imageId);
 
+    sdc.increment("webapp.getImageById");
+
     response.send(result);
   }
 );
@@ -99,6 +113,8 @@ router.delete(
     const { productId, imageId } = request.params;
 
     await ImageDelete(productId, imageId);
+
+    sdc.increment("webapp.deleteImage");
 
     response.status(204).send();
   }

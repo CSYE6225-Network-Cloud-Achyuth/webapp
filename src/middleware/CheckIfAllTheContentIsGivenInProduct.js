@@ -10,10 +10,12 @@ const checkIfAllTheContentIsGivenInProduct = async (req, res, next) => {
     manufacturer === undefined ||
     quantity === undefined
   ) {
+    logger.error("Required attributes are missing or mispelt");
     throw new BadRequestException("Required attributes are missing or mispelt");
   }
   // Checking If we have given extra fields
   if (Object.keys(req.body).length > 5) {
+    logger.error("You have given some unnecessary field!");
     throw new BadRequestException("You have given some unnecessary field!");
   }
 
@@ -24,6 +26,7 @@ const checkIfAllTheContentIsGivenInProduct = async (req, res, next) => {
     manufacturer === "" ||
     quantity === ""
   ) {
+    logger.error("There is a empty value in one of the json field");
     throw new BadRequestException(
       "There is a empty value in one of the json field"
     );

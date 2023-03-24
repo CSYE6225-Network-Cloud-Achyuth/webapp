@@ -1,4 +1,5 @@
 import BadRequestException from "../errors/BadRequest.js";
+import { logger } from "../winston-log/winston.js";
 
 const emptyContentCheckMiddleware = async (req, res, next) => {
   if (
@@ -6,6 +7,7 @@ const emptyContentCheckMiddleware = async (req, res, next) => {
     Object.keys(req.body).length === 0 &&
     Object.getPrototypeOf(req.body) === Object.prototype
   ) {
+    logger.error("User given an empty payload");
     throw new BadRequestException("Empty Payload!");
   }
 

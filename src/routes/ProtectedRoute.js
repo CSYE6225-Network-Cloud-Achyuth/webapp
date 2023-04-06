@@ -18,6 +18,7 @@ import {
 } from "../service/ProductService.js";
 import { getUserById, updateTheGivenFields } from "../service/UserService.js";
 import { sdc } from "../statsd/StatsD.js";
+import { logger } from "../winston-log/winston.js";
 
 const router = Router();
 
@@ -34,6 +35,8 @@ router.get(
     const userDetails = await getUserById(req.params.userId);
 
     delete userDetails.dataValues["password"];
+
+    logger.info("Fetched user details: " + JSON.stringify(userDetails));
 
     sdc.increment("webapp.getUserById");
 
@@ -57,6 +60,8 @@ router.put(
 
     await updateTheGivenFields(req.body, req.params.userId);
 
+    logger.info("Updated user details: " + JSON.stringify(userDetails));
+
     sdc.increment("webapp.putUserById");
 
     res.status(204).send();
@@ -71,9 +76,8 @@ router.post(
   checkQuantityNumber,
   async (req, res) => {
     const createdProduct = await createProduct(req.body, req.response.id);
-
+    logger.info("Created product: " + JSON.stringify(createdProduct));
     sdc.increment("webapp.postProduct");
-
     await res.send(createdProduct);
   }
 );
@@ -87,6 +91,8 @@ router.patch(
   checkQuantityNumber,
   async (req, res) => {
     await updateProductPatch(req.body, req.params.productId);
+
+    logger.info("Patched product: " + req.params.productId);
 
     sdc.increment("webapp.patchProductById");
 
@@ -105,6 +111,8 @@ router.put(
   async (req, res) => {
     await updateProductPut(req.body, req.params.productId);
 
+    logger.info("Updated the product successfully: " + req.params.productId);
+
     sdc.increment("webapp.putProductById");
 
     await res.status(204).send();
@@ -118,6 +126,8 @@ router.delete(
   checkIfProductExistsAndCheckTheOwner,
   async (req, res) => {
     const { productId } = req.params;
+
+    logger.info("Deleted the product successfully!: " + productId);
 
     await deleteProduct(productId);
 

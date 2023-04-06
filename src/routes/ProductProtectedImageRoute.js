@@ -95,6 +95,10 @@ router.get(
   async (request, response) => {
     const { productId, imageId } = request.params;
 
+    logger.info(
+      "Successfully fetched the image details for specific image id: " + imageId
+    );
+
     const result = await ImageGetSpecific(productId, imageId);
 
     sdc.increment("webapp.getImageById");
@@ -111,6 +115,8 @@ router.delete(
   CheckIfValidProductIDAndImageIdGiven,
   async (request, response) => {
     const { productId, imageId } = request.params;
+
+    logger.info("Successfully deleted the image details");
 
     await ImageDelete(productId, imageId);
 

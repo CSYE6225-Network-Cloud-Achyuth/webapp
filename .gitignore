@@ -113,3 +113,8 @@ package-lock.json
 uploads
 uploads/*
 **/uploads/*
+
+
+logs
+logs/*
+**/logs/*

@@ -115,10 +115,10 @@ jobs:
 
       - name: Fetching Latest AMI-ID
         run: |
-            aws ec2 describe-images \
+            AMI_ID="$(aws ec2 describe-images \
             --owners ${{ secrets.OWNER_ID }} \
             --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-            --output text >> $AMI_ID
+            --output text)"
             
       - name: Echoing AMI-ID
         run: "echo ${{ env.AMI_ID }}"

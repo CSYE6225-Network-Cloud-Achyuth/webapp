@@ -69,3 +69,13 @@ jobs:
       - name: Run `packer build`
         id: build
         run: "packer build -var-file=main.pkrvars.hcl ."
+
+      - name: Getting the latest version of AMI ID
+        id: ami
+        run: |
+          export ami_id="$(aws ec2 describe-images \
+            --owners ${{ secrets.owner_id }} \
+            --query 'Images[0].ImageId' \
+            --output text --profile demo)"
+
+          echo $ami_id

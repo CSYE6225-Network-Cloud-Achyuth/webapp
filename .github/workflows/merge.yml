@@ -125,7 +125,7 @@ jobs:
 
       - name: Fetching Latest Template ID
         run: |
-          export launch_template_id="$(aws ec2 describe-launch-templates \
+         LAUNCH_TEMPLATE_ID="$(aws ec2 describe-launch-templates \
             --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' \
           )"
 
@@ -133,7 +133,7 @@ jobs:
 
       - name: Creating a new launch template
         run: |
-          aws ec2 create-launch-template-version --launch-template-id $launch_template_id \
+          aws ec2 create-launch-template-version --launch-template-id ${{ env.LAUNCH_TEMPLATE_ID }} \
             --version-description Version2.0Template \
             --source-version 1 \
             --launch-template-data ImageId=$ami_id \

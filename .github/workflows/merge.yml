@@ -76,6 +76,6 @@ jobs:
           export ami_id="$(aws ec2 describe-images \
             --owners ${{ secrets.owner_id }} \
             --query 'Images[0].ImageId' \
-            --output text --profile demo)"
+            --output text)"
 
           echo $ami_id

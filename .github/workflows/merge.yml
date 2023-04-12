@@ -115,13 +115,13 @@ jobs:
 
       - name: Fetching Latest AMI-ID
         run: |
-          export ami_id="$(aws ec2 describe-images \
+            aws ec2 describe-images \
             --owners ${{ secrets.OWNER_ID }} \
             --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-            --output text)"
+            --output text >> $AMI_ID
             
       - name: Echoing AMI-ID
-        run: "echo $ami_id"
+        run: "echo ${{ env.AMI_ID }}"
 
       - name: Fetching Latest Template ID
         run: |

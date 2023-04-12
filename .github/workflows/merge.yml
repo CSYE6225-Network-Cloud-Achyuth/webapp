@@ -119,6 +119,9 @@ jobs:
             --owners ${{ secrets.OWNER_ID }} \
             --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
             --output text)"
+            
+      - name: Echoing AMI-ID
+        run: "echo $ami_id"
 
       - name: Fetching Latest Template ID
         run: |

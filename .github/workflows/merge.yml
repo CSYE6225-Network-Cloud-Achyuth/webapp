@@ -58,40 +58,17 @@ jobs:
         with:
           version: "latest"
 
-      # - name: Run packer init
-      #   id: init
-      #   run: "packer init ."
+      - name: Run packer init
+        id: init
+        run: "packer init ."
 
-      # - name: Run packer validate
-      #   id: validate
-      #   run: "packer validate -var-file=main.pkrvars.hcl ."
+      - name: Run packer validate
+        id: validate
+        run: "packer validate -var-file=main.pkrvars.hcl ."
 
-      # - name: Run `packer build`
-      #   id: build
-      #   run: "packer build -var-file=main.pkrvars.hcl ."
-
-      # - name: Getting the latest version of AMI ID
-      #   id: ami
-      #   run: |
-      #     export ami_id="$(aws ec2 describe-images \
-      #     --owners 141894463187 \
-      #     --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-      #     --output text)"
-
-      #     echo $ami_id
-
-      # - name: Getting the latest Template ID
-      #   id: template
-      #   run: |
-      #     export launch_template_id="$(aws ec2 describe-launch-templates \
-      #       --query 'sort_by(LaunchTemplates, &CreateTime)[-1].LaunchTemplateId' \
-      #       -- output text)"
-
-      #     export launch_template_without_quotes=`sed -e 's/^"//' -e 's/"$//' <<<"$launch_template_id"`
-
-      # - name: Instance Refresh
-      #   run: |
-      #     aws --profile demo ec2 create-launch-template-version --launch-template-id $launch_template_without_quotes --version-description WebVersion2 --source-version 1 --launch-template-data '{"ImageId":"$ami_id"}' --region us-east-1
+      - name: Run `packer build`
+        id: build
+        run: "packer build -var-file=main.pkrvars.hcl ."
 
   Refresh_Autoscaling_Group:
     needs: Build_Image

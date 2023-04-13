@@ -120,7 +120,7 @@ jobs:
             --auto-scaling-group-name created_by_terraform
           )"
 
-          if  [[ "$launch_template_without_quotess"==null && "$auto_scaling_name"==null ]]
+          if  [[ ! -z $launch_template_without_quotes && ! -z $auto_scaling_name ]]
           then
 
             echo "Launch Template Found"

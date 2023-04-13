@@ -103,7 +103,12 @@ jobs:
 
           export launch_template_without_quotes=`sed -e 's/^"//' -e 's/"$//' <<<"$launch_template_id"`
 
-          if  [[ ! -z "$launch_template_without_quotes" ]]
+          export auto_scaling_name="$(aws autoscaling describe-auto-scaling-groups \
+            --query "AutoScalingGroups[0].AutoScalingGroupName" \
+            --auto-scaling-group-name created_by_terraform
+          )"
+
+          if  [[ ! -z "$launch_template_without_quotes" &&  ! -z "$auto_scaling_name" ]]
           then
 
             echo "Launch Template Found"

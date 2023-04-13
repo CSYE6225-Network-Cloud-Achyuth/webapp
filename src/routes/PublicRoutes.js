@@ -77,8 +77,8 @@ router.get("/dummy", async (req, res) => {
   res.status(200).send({ hello: "world" });
 });
 
-router.get("/dummy2", async (req, res) => {
-  res.status(200).send({ hello: "world2" });
+router.get("/dummy3", async (req, res) => {
+  res.status(200).send({ hello: "world3" });
 });
 
 export { router as userRouter };

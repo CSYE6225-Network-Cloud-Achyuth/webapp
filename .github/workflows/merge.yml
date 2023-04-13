@@ -52,34 +52,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # - name: Configure AWS Credentials for demo
-      #   if: ${{ vars.ENV == 'prod' }}
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     # aws-region: us-east-1
-      #     # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-      #     # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
-      #     aws-region: us-east-1
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: "latest"
 
-        - name: Setup `packer`
-          uses: hashicorp/setup-packer@main
-          id: setup
-          with:
-            version: "latest"
+      - name: Run packer init
+        id: init
+        run: "packer init ."
 
-        - name: Run packer init
-          id: init
-          run: "packer init ."
+      - name: Run packer validate
+        id: validate
+        run: "packer validate -var-file=main.pkrvars.hcl ."
 
-        - name: Run packer validate
-          id: validate
-          run: "packer validate -var-file=main.pkrvars.hcl ."
-
-        - name: Run `packer build`
-          id: build
-          run: "packer build -var-file=main.pkrvars.hcl ."
+      - name: Run `packer build`
+        id: build
+        run: "packer build -var-file=main.pkrvars.hcl ."
 
   Refresh_Autoscaling_Group:
     needs: Build_Image

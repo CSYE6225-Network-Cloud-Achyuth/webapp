@@ -63,23 +63,23 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
       #     aws-region: us-east-1
 
-  #       - name: Setup `packer`
-  #         uses: hashicorp/setup-packer@main
-  #         id: setup
-  #         with:
-  #           version: "latest"
+        - name: Setup `packer`
+          uses: hashicorp/setup-packer@main
+          id: setup
+          with:
+            version: "latest"
 
-  #       - name: Run packer init
-  #         id: init
-  #         run: "packer init ."
+        - name: Run packer init
+          id: init
+          run: "packer init ."
 
-  #       - name: Run packer validate
-  #         id: validate
-  #         run: "packer validate -var-file=main.pkrvars.hcl ."
+        - name: Run packer validate
+          id: validate
+          run: "packer validate -var-file=main.pkrvars.hcl ."
 
-  #       - name: Run `packer build`
-  #         id: build
-  #         run: "packer build -var-file=main.pkrvars.hcl ."
+        - name: Run `packer build`
+          id: build
+          run: "packer build -var-file=main.pkrvars.hcl ."
 
   Refresh_Autoscaling_Group:
     needs: Build_Image
@@ -131,7 +131,7 @@ jobs:
             --auto-scaling-group-name created_by_terraform
           )"
 
-          if  [[ ! -z "$launch_template_without_quotes" &&  ! "$auto_scaling_name"==null ]]
+          if  [[ "$launch_template_without_quotess"==null && "$auto_scaling_name"==null ]]
           then
 
             echo "Launch Template Found"

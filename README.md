@@ -67,3 +67,7 @@ To include the var file as well, please use the following command
 Demo-5
 
 ## This is for the DEMO-5
+
+## To import the certificate
+
+`aws acm import-certificate --certificate fileb://csr2.pem --certificate-chain fileb://certificate_chain.pem --private-key fileb://private_key.pem --profile demo`

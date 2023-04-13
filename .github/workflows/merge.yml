@@ -135,5 +135,4 @@ jobs:
             --auto-scaling-group-name created_by_terraform
           else
             echo "Launch Template Not Found"
-            exit 0  
           fi

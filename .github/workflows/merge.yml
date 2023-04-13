@@ -120,7 +120,7 @@ jobs:
             --auto-scaling-group-name created_by_terraform
           )"
 
-          if  [[ ! -z $launch_template_without_quotes && ! -z $auto_scaling_name ]]
+          if ! [[ $launch_template_id == null ]] && ! [[ $auto_scaling_name == null ]]
           then
 
             echo "Launch Template Found"
@@ -135,5 +135,4 @@ jobs:
             --auto-scaling-group-name created_by_terraform
           else
             echo "Launch Template Not Found"
-            exit 0  
           fi

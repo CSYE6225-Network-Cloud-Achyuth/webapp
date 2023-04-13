@@ -103,11 +103,14 @@ jobs:
 
           export launch_template_without_quotes=`sed -e 's/^"//' -e 's/"$//' <<<"$launch_template_id"`
 
-          aws ec2 create-launch-template-version --launch-template-id $launch_template_without_quotes \
-            --version-description Version2.0Template \
-            --source-version 1 \
-            --launch-template-data ImageId=$ami_id \
-            --region us-east-1
+          if ! [-z "$launch_template_without_quotes" ]
+          then
 
-          aws autoscaling start-instance-refresh \
-          --auto-scaling-group-name created_by_terraform
+            aws ec2 create-launch-template-version --launch-template-id $launch_template_without_quotes \
+              --version-description Version2.0Template \
+              --source-version 1 \
+              --launch-template-data ImageId=$ami_id \
+              --region us-east-1
+
+            aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name created_by_terraform

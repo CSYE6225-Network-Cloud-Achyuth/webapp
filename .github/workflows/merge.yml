@@ -43,7 +43,6 @@ jobs:
         run: ls -l
 
       - name: Configure AWS Credentials for dev
-        if: ${{ vars.ENV == 'dev' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           # aws-region: us-east-1
@@ -53,16 +52,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Configure AWS Credentials for demo
-        if: ${{ vars.ENV == 'prod' }}
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          # aws-region: us-east-1
-          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
-          aws-region: us-east-1
+      # - name: Configure AWS Credentials for demo
+      #   if: ${{ vars.ENV == 'prod' }}
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     # aws-region: us-east-1
+      #     # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+      #     # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
+      #     aws-region: us-east-1
 
   #       - name: Setup `packer`
   #         uses: hashicorp/setup-packer@main
@@ -92,7 +91,8 @@ jobs:
       - name: Checking AWS Version
         run: "aws --version"
 
-      - name: Fetching AWS Credentials for demo account
+      - name: Configure AWS Credentials for dev
+        if: ${{ vars.ENV == 'dev' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           # aws-region: us-east-1
@@ -100,6 +100,17 @@ jobs:
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Configure AWS Credentials for demo
+        if: ${{ vars.ENV == 'prod' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          # aws-region: us-east-1
+          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
           aws-region: us-east-1
 
       - name: Auto Refreshing the auto scaling group

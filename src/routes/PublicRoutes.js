@@ -16,7 +16,7 @@ import { logger, winston } from "../winston-log/winston.js";
 const router = Router();
 
 router.post(
-  "/v3/user",
+  "/v1/user",
   emptyContent,
   checkEmailRegex,
   checkPasswordRegex,

@@ -71,3 +71,5 @@ Demo-5
 ## To import the certificate
 
 `aws acm import-certificate --certificate fileb://csr2.pem --certificate-chain fileb://certificate_chain.pem --private-key fileb://private_key.pem --profile demo`
+
+Check
